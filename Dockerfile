@@ -1,4 +1,4 @@
-FROM arm32v6/alpine:3.7
+FROM multiarch/alpine:armhf-latest-stable
 LABEL maintainer "Ruben Jongejan - ruben.jongejan@gmail.com"
 
 RUN apk add --update \
