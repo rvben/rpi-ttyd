@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM arm32v6/alpine:3.7
 LABEL maintainer "Ruben Jongejan - ruben.jongejan@gmail.com"
 
 RUN apk add --update \

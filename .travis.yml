@@ -1,0 +1,18 @@
+sudo: required
+services:
+- docker
+language: bash
+env:
+  global:
+  - DOCKER_NAME=rvben/rpi-ttyd
+  - DOCKER_USER=rvben
+  - secure: IYk1sg8maIB0oYGgDtUQKSuyJLM4QyfKxW4+I0XflDrjIgwjYOwfzKETcUTuFayCYn2J2HVTXw5s5oU4eVmi9EH5KBEY3m2/i1lwtS15lNcdEBd2PooOyL5WgqYBWOz/oY3v8nwJrg8RyeEKjKX/1aWF4Smfd9rUKcexX3IQSulXI606rspuzt+KJzFoRO81qGb8MqR6uepXL+Qk+yR+RlmPar8nyugsPLUyswRpbBA030ekuwP6ZsnlQ2QEBkLs4rslYSxhgd8hn1+pYTkDhUfqZ6tVdKDRTyvHeZMyZimn8Nbg3z2suFDOZLC2lzmq7mQ3+yqpfJtgqWdURncO2zVMgVoMTx55vx257iJtkRpe22HLiGqJtEEYdpNlQCerAZLJzGn63lxt02aF2EGKC4xYi/B4CSleXWfePu2WxxjPh/1qRArgdRal6I5PeVczZ8lqgqyYBUya7m+eXJcsw+LXUy4XiN7vpgByQjXQGkzVTb7nZ0cNw2Tx48894sgyA8ChG0ipLUulVR1nZPtUoQataVoN3Ehw9FCFSEy0ZlMPmikAAaacIkIvN2TEdRmgpKSykgJ/WsTk0avh/XHDalYaT/xehiKAMfjTL36JOHlHJQRTEUMKxU83BGbUI5mCur1KQae5U1vxR8tlS1hnPgq/X229NLs/zDKHk4VTMA8=
+script:
+- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+- docker build -t $DOCKER_NAME .
+- docker run $DOCKER_NAME --version
+- |
+  if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+    docker push $DOCKERNAME
+  fi
